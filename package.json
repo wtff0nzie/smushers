@@ -1,0 +1,34 @@
+{
+    "name": "smushers",
+    "description": "Make big stringy things smaller over the wire.",
+    "url": "https://github.com/wtff0nzie/smushers",
+    "keywords": [
+        "minify",
+        "gzip",
+        "un-embiggen"
+    ],
+    "author": {
+        "name": "wtff0nzie",
+        "email": "stopbeing@deziddon.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wtff0nzie/smushers"
+    },
+    "license": "MIT",
+    "readmeFilename": "readme.md",
+    "bugs": {
+        "url": "https://github.com/wtff0nzie/smushers/issues"
+    },
+    "homepage": "https://github.com/wtff0nzie/smushers",
+    "main": "./smushers",
+    "version": "0.3.0",
+    "engines": {
+        "node": ">= 0.12"
+    },
+    "dependencies": {
+        "clean-css": "*",
+        "html-minifier": "*",
+        "uglify-js": "*"
+    }
+}
