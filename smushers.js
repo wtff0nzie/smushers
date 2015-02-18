@@ -1,12 +1,12 @@
 /***************************************************
- *                       SMUSHERS
- ****************************************************
- *
- *   About:  Makes files as small as possible for
- *           transport <strike>by avian carriers
- *           </strike> over the wire.
- *
- ****************************************************/
+*                       SMUSHERS
+****************************************************
+*
+*   About:  Makes files as small as possible for
+*           transport <strike>by avian carriers
+*           </strike> over the wire.
+*
+****************************************************/
 'use strict';
 
 
