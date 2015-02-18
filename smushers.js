@@ -46,6 +46,15 @@ var minifyJS = function (js) {
 };
 
 
+// gZip a file
+var compressAsset = function (fileName, outputFileName) {
+    var input = fs.createReadStream(fileName),
+        output = fs.createWriteStream((outputFileName || fileName) + '.gz');
+
+    input.pipe(zlib.createGzip()).pipe(output);
+};
+
+
 // Find and gzip static contents
 var gzipStaticContents = function (path) {
     var zlib,
@@ -81,14 +90,6 @@ var gzipStaticContents = function (path) {
                 callback(err, fileName);
             }
         });
-    };
-
-    // gZip a file
-    var compressAsset = function (fileName, outputFileName) {
-        var input = fs.createReadStream(fileName),
-            output = fs.createWriteStream((outputFileName || fileName) + '.gz');
-
-        input.pipe(zlib.createGzip()).pipe(output);
     };
 
     // Find, minify and compress suitable files
@@ -171,6 +172,7 @@ var gzipStaticContents = function (path) {
 module.exports = {
     'crush' : gzipStaticContents,
     'css'   : minifyCSS,
+    'gzip'  : compressAsset,
     'html'  : minifyHTML,
     'js'    : minifyJS,
     'smush' : gzipStaticContents
