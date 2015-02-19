@@ -4,7 +4,7 @@ A collection of un-embiggeners in a gzip wrapper.
 
 ## Features
 * CSS/HTML/JS files are automatically minified and gzipped
-* JSON/TXT/XML file are automatically gzipped
+* JSON/SVG/TXT/XML file are automatically gzipped
 
 ## Quick usage
 Recursive minification of static CSS, JS and HTML files

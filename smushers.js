@@ -1,13 +1,17 @@
 /***************************************************
-*                       SMUSHERS
-****************************************************
-*
-*   About:  Makes files as small as possible for
-*           transport <strike>by avian carriers
-*           </strike> over the wire.
-*
-****************************************************/
+ *                       SMUSHERS
+ ****************************************************
+ *
+ *   About:  Makes files as small as possible for
+ *           transport <strike>by avian carriers
+ *           </strike> over the wire.
+ *
+ ****************************************************/
 'use strict';
+
+var canCompress = ['css', 'html', 'htm', 'js', 'json', 'svg', 'txt', 'xml'],
+    zlib = require('zlib'),
+    fs = require('fs');
 
 
 // Minify <HTML>
@@ -57,16 +61,10 @@ var compressAsset = function (fileName, outputFileName) {
 
 // Find and gzip static contents
 var gzipStaticContents = function (path) {
-    var zlib,
-        fs;
-
     if (!path) {
         console.log('Smushers wasn\'t give a directory to smush :(');
         return;
     }
-
-    zlib = require('zlib');
-    fs = require('fs');
 
     // Sync file read
     var readFileSync = function (fileName) {
@@ -94,8 +92,6 @@ var gzipStaticContents = function (path) {
 
     // Find, minify and compress suitable files
     var compressStaticAssets = function (folder) {
-        var canCompress = ['css', 'html', 'htm', 'js', 'json', 'svg', 'txt'];
-
         traverseFileSystem(folder, function (currentFile, currentPath) {
             var fName = currentFile.split('.'),
                 extension = fName[fName.length - 1].toLowerCase(),
