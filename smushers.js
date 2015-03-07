@@ -62,20 +62,32 @@ var compressAsset = function (fileName, outputFileName) {
 
 // Optimise an image
 var optimiseImage = function (fileName, outputFileName) {
-    var optimise = require('optimage'),
-        options = {
+    var options = {
             inputFile   : fileName,
             outputFile  : outputFileName || fileName
-        };
+        },
+        optimise;
 
 
-    optimise(options, function (err) {
-        if (err) {
-            console.log('Smushers could not optimise ' + fileName);
+    fs.readFile(outputFileName, function(err) {
+        if (!err) {
+            return;
         }
-    });
 
-    optimise = null;
+        optimise = require('optimage');
+
+        try {
+            optimise(options, function (err) {
+                if (err) {
+                    console.log('Smushers could not optimise ' + fileName);
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+        optimise = null;
+    });
 };
 
 
@@ -154,9 +166,11 @@ var gzipStaticContents = function (path) {
 
                     // Optimise an image
                     fName.pop();
-                    outputFileName = fName.join('.') + '.opt.' + extension;
 
-                    optimiseImage(currentFile, outputFileName);
+                    if (fName[fName.length - 1] != 'opt') {
+                        outputFileName = fName.join('.') + '.opt.' + extension;
+                        optimiseImage(currentFile, outputFileName);
+                    }
                 }
             }
         });
