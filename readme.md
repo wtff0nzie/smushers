@@ -4,10 +4,11 @@ A collection of un-embiggeners in a gzip wrapper.
 
 ## Features
 * CSS/HTML/JS files are automatically minified and gzipped
-* JSON/SVG/TXT/XML file are automatically gzipped
+* JSON/SVG/TXT/XML files are automatically gzipped
+* GIF/JPG/PNG files are optimised
 
 ## Quick usage
-Recursive minification of static CSS, JS and HTML files
+Recursive minification of static CSS, JS, HTML and image files
 
     require('smushers').smush('./public');
 

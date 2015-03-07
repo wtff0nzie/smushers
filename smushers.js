@@ -9,7 +9,8 @@
  ****************************************************/
 'use strict';
 
-var canCompress = ['css', 'html', 'htm', 'js', 'json', 'svg', 'txt', 'xml'],
+var txtCompress = ['css', 'html', 'htm', 'js', 'json', 'svg', 'txt', 'xml'],
+    imgCompress = ['gif', 'jpeg', 'jpg', 'png'],
     zlib = require('zlib'),
     fs = require('fs');
 
@@ -59,6 +60,25 @@ var compressAsset = function (fileName, outputFileName) {
 };
 
 
+// Optimise an image
+var optimiseImage = function (fileName, outputFileName) {
+    var optimise = require('optimage'),
+        options = {
+            inputFile   : fileName,
+            outputFile  : outputFileName || fileName
+        };
+
+
+    optimise(options, function (err) {
+        if (err) {
+            console.log('Smushers could not optimise ' + fileName);
+        }
+    });
+
+    optimise = null;
+};
+
+
 // Find and gzip static contents
 var gzipStaticContents = function (path) {
     if (!path) {
@@ -100,7 +120,7 @@ var gzipStaticContents = function (path) {
                 source;
 
             if (fName && fName.length > 0 && extension) {
-                if (canCompress.indexOf(extension) > -1) {
+                if (txtCompress.indexOf(extension) > -1) {
 
                     // Minify HTML, CSS,  JS
                     if (extension === 'css' || extension === 'js' || extension.indexOf('htm') > -1) {
@@ -130,6 +150,13 @@ var gzipStaticContents = function (path) {
                             deleteFile(outputFileName);
                         }, 9999);
                     }
+                } else if (imgCompress.indexOf(extension) > -1) {
+
+                    // Optimise an image
+                    fName.pop();
+                    outputFileName = fName.join('.') + '.opt.' + extension;
+
+                    optimiseImage(currentFile, outputFileName);
                 }
             }
         });

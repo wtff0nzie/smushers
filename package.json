@@ -1,6 +1,6 @@
 {
     "name": "smushers",
-    "description": "Make big stringy things smaller <strike>by avian carrier</strike> over the wire.",
+    "description": "Make big stringy things smaller <strike>for carriage by avian carriers</strike> over the wire.",
     "url": "https://github.com/wtff0nzie/smushers",
     "keywords": [
         "minify",
@@ -22,13 +22,14 @@
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
     "main": "./smushers",
-    "version": "0.3.3",
+    "version": "0.3.7",
     "engines": {
         "node": ">= 0.12"
     },
     "dependencies": {
         "clean-css": "*",
         "html-minifier": "*",
+        "optimage": "*",
         "uglify-js": "*"
     }
 }
