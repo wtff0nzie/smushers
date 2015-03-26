@@ -18,10 +18,17 @@ var txtCompress = ['css', 'html', 'htm', 'js', 'json', 'svg', 'txt', 'xml'],
 // Minify <HTML>
 var minifyHTML = function (markup) {
     var minify = require('html-minifier').minify,
+        minified;
+
+    try {
         minified = minify(markup, {
             collapseWhitespace  : true,
             removeComments      : true
         });
+    } catch (e) {
+        console.log('Smushers failed to minify HTML:\n' + markup);
+        minified = markup;
+    }
 
     minify = null;
 
@@ -32,7 +39,14 @@ var minifyHTML = function (markup) {
 // Minify CSS
 var minifyCSS = function (css) {
     var cleanCSS = require('clean-css'),
+        minified;
+
+    try {
         minified = new cleanCSS().minify(css).styles;
+    } catch (e) {
+        console.log('Smushers failed to minify CSS\n' + css);
+        minified = css;
+    }
 
     cleanCSS = null;
 
@@ -43,7 +57,14 @@ var minifyCSS = function (css) {
 // Minify JS
 var minifyJS = function (js) {
     var uglify = require('uglify-js'),
+        minified;
+
+    try {
         minified = uglify.minify(js, {fromString: true}).code;
+    } catch (e) {
+        console.log('Smushers failed to minify JS\n'+ js);
+        minified = js;
+    }
 
     uglify = null;
 
