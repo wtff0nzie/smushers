@@ -1,13 +1,16 @@
 /***************************************************
- *                       SMUSHERS
- ****************************************************
- *
- *   About:  Makes files as small as possible for
- *           transport <strike>by avian carriers
- *           </strike> over the wire.
- *
- ****************************************************/
+*                       SMUSHERS
+****************************************************
+*
+*   About:  Makes files as small as possible for
+*           transport <strike>by avian carriers
+*           </strike> over the wire.
+*
+****************************************************/
+/*jslint browser: false, node: true */
+
 'use strict';
+
 
 var txtCompress = ['css', 'html', 'htm', 'js', 'json', 'svg', 'txt', 'xml'],
     imgCompress = ['gif', 'jpeg', 'jpg', 'png'],
@@ -38,17 +41,17 @@ var minifyHTML = function (markup) {
 
 // Minify CSS
 var minifyCSS = function (css) {
-    var cleanCSS = require('clean-css'),
+    var CleanCSS = require('clean-css'),
         minified;
 
     try {
-        minified = new cleanCSS().minify(css).styles;
+        minified = new CleanCSS().minify(css).styles;
     } catch (e) {
         console.log('Smushers failed to minify CSS\n' + css);
         minified = css;
     }
 
-    cleanCSS = null;
+    CleanCSS = null;
 
     return minified;
 };
@@ -62,7 +65,7 @@ var minifyJS = function (js) {
     try {
         minified = uglify.minify(js, {fromString: true}).code;
     } catch (e) {
-        console.log('Smushers failed to minify JS\n'+ js);
+        console.log('Smushers failed to minify JS\n' + js);
         minified = js;
     }
 
@@ -90,7 +93,7 @@ var optimiseImage = function (fileName, outputFileName) {
         optimise;
 
 
-    fs.readFile(outputFileName, function(err) {
+    fs.readFile(outputFileName, function (err) {
         if (!err) {
             return;
         }
@@ -114,23 +117,57 @@ var optimiseImage = function (fileName, outputFileName) {
 
 // Find and gzip static contents
 var gzipStaticContents = function (path) {
+    var compressStaticAssets,
+        traverseFileSystem,
+        writeFileSync,
+        readFileSync,
+        deleteFile;
+
+
     if (!path) {
         console.log('Smushers wasn\'t give a directory to smush :(');
         return;
     }
 
+
+    // Recursive file / folder dance, do stuff
+    traverseFileSystem = function (currentPath, func) {
+        var files = fs.readdirSync(currentPath);
+
+        files.forEach(function (file) {
+            var currentFile = currentPath + '/' + file;
+
+            fs.stat(currentFile, function (err, stat) {
+                if (err) {
+                    return;
+                }
+
+                if (stat.isFile()) {
+                    if (func) {
+                        func(currentFile, currentPath);
+                    }
+                } else if (stat.isDirectory()) {
+                    traverseFileSystem(currentFile, func);
+                }
+            });
+        });
+    };
+
+
     // Sync file read
-    var readFileSync = function (fileName) {
+    readFileSync = function (fileName) {
         return fs.readFileSync(fileName).toString();
     };
 
+
     // Sync file write
-    var writeFileSync = function (fileName, contents) {
+    writeFileSync = function (fileName, contents) {
         fs.writeFileSync(fileName, contents);
     };
 
+
     // Delete file
-    var deleteFile = function (fileName, callback) {
+    deleteFile = function (fileName, callback) {
         fs.unlink(fileName, function (err) {
             if (err) {
                 console.log(err);
@@ -143,9 +180,10 @@ var gzipStaticContents = function (path) {
         });
     };
 
+
     // Find, minify and compress suitable files
-    var compressStaticAssets = function (folder) {
-        traverseFileSystem(folder, function (currentFile, currentPath) {
+    compressStaticAssets = function (folder) {
+        traverseFileSystem(folder, function (currentFile) {
             var fName = currentFile.split('.'),
                 extension = fName[fName.length - 1].toLowerCase(),
                 outputFileName = currentFile,
@@ -188,7 +226,7 @@ var gzipStaticContents = function (path) {
                     // Optimise an image
                     fName.pop();
 
-                    if (fName[fName.length - 1] != 'opt') {
+                    if (fName[fName.length - 1].toString() !== 'opt') {
                         outputFileName = fName.join('.') + '.opt.' + extension;
                         optimiseImage(currentFile, outputFileName);
                     }
@@ -197,32 +235,9 @@ var gzipStaticContents = function (path) {
         });
     };
 
-    // Recursive file / folder dance, do stuff
-    var traverseFileSystem = function (currentPath, func) {
-        var files = fs.readdirSync(currentPath);
-
-        files.forEach(function (file) {
-            var currentFile = currentPath + '/' + file;
-
-            fs.stat(currentFile, function(err, stat) {
-                if (err) {
-                    return;
-                }
-
-                if (stat.isFile()) {
-                    if (func) {
-                        func(currentFile, currentPath)
-                    }
-                } else if (stat.isDirectory()) {
-                    traverseFileSystem(currentFile, func);
-                }
-            });
-        });
-    };
-
     try {
         compressStaticAssets(path);
-    } catch(ignore) {}
+    } catch (ignore) {}
 };
 
 
