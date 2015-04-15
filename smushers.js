@@ -245,6 +245,7 @@ var gzipStaticContents = function (path) {
 module.exports = {
     'crush' : gzipStaticContents,
     'css'   : minifyCSS,
+    'img'   : optimiseImage,
     'gzip'  : compressAsset,
     'html'  : minifyHTML,
     'js'    : minifyJS,
