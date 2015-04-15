@@ -22,7 +22,7 @@
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
     "main": "./smushers",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "engines": {
         "node": ">= 0.12"
     },

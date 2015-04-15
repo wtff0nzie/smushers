@@ -85,7 +85,7 @@ var compressAsset = function (fileName, outputFileName) {
 
 
 // Optimise an image
-var optimiseImage = function (fileName, outputFileName) {
+var optimiseImage = function (fileName, outputFileName, callback) {
     var options = {
             inputFile   : fileName,
             outputFile  : outputFileName || fileName
@@ -111,6 +111,10 @@ var optimiseImage = function (fileName, outputFileName) {
         }
 
         optimise = null;
+
+        if (callback) {
+            callback(null, outputFileName);
+        }
     });
 };
 
