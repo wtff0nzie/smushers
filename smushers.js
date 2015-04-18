@@ -105,15 +105,21 @@ var optimiseImage = function (fileName, outputFileName, callback) {
                 if (err) {
                     console.log('Smushers could not optimise ' + fileName);
                 }
+
+                if (callback) {
+                    callback(err, outputFileName);
+                }
+
+                optimise = null;
             });
-        } catch (e) {
-            console.log(e);
-        }
+        } catch (err) {
+            console.log(err);
 
-        optimise = null;
+            if (callback) {
+                callback(true, err);
+            }
 
-        if (callback) {
-            callback(null, outputFileName);
+            optimise = null;
         }
     });
 };

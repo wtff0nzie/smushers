@@ -8,7 +8,7 @@ A collection of un-embiggeners in a gzip wrapper.
 * GIF/JPG/PNG files are optimised
 
 ## Quick usage
-Recursive minification of static CSS, JS, HTML and image files
+Automagical recursive minification of static CSS, JS, HTML and image files
 
     require('smushers').smush('./public');
 
@@ -24,6 +24,12 @@ Recursive minification of static CSS, JS, HTML and image files
     var minifiedCSS = require('smushers').css(cssString);
 
     var minifiedHTML = require('smushers').html(htmlString);
+
+    var minifiedIMG = require('smushers').img('img-large.jpg');
+
+Specify and output filename and a callback:
+
+    var minifiedIMG = require('smushers').img('img-large.jpg', 'img-smaller.jpg', function (err, filename) {});
 
 
 ## Installation
