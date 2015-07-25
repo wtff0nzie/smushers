@@ -22,14 +22,14 @@
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
     "main": "./smushers",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "engines": {
         "node": ">= 0.12"
     },
     "dependencies": {
         "clean-css": "*",
         "html-minifier": "*",
-        "optimage": "*",
+        "optimage": "0.2.0",
         "uglify-js": "*"
     }
 }
