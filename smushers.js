@@ -19,7 +19,7 @@ var txtCompress = ['css', 'html', 'htm', 'js', 'json', 'svg', 'txt', 'xml'],
 
 
 // Minify <HTML>
-var minifyHTML = function (markup) {
+var minifyHTML = (markup) => {
     var minify = require('html-minifier').minify,
         minified;
 
@@ -33,14 +33,14 @@ var minifyHTML = function (markup) {
         minified = markup;
     }
 
-    minify = null;
+    minify = undefined;
 
     return minified;
 };
 
 
 // Minify CSS
-var minifyCSS = function (css) {
+var minifyCSS = (css) => {
     var CleanCSS = require('clean-css'),
         minified;
 
@@ -51,14 +51,14 @@ var minifyCSS = function (css) {
         minified = css;
     }
 
-    CleanCSS = null;
+    CleanCSS = undefined;
 
     return minified;
 };
 
 
 // Minify JS
-var minifyJS = function (js) {
+var minifyJS = (js) => {
     var uglify = require('uglify-js'),
         minified;
 
@@ -69,14 +69,14 @@ var minifyJS = function (js) {
         minified = js;
     }
 
-    uglify = null;
+    uglify = undefined;
 
     return minified;
 };
 
 
 // gZip a file
-var compressAsset = function (fileName, outputFileName) {
+var compressAsset = (fileName, outputFileName) => {
     var input = fs.createReadStream(fileName),
         output = fs.createWriteStream((outputFileName || fileName) + '.gz');
 
@@ -85,23 +85,23 @@ var compressAsset = function (fileName, outputFileName) {
 
 
 // Optimise an image
-var optimiseImage = function (fileName, outputFileName, callback) {
+var optimiseImage = (fileName, outputFileName, callback) => {
     var options = {
             inputFile   : fileName,
             outputFile  : outputFileName || fileName
         },
         optimise;
 
-
+    // Does an optimised file already exist?
     fs.readFile(outputFileName, function (err) {
         if (!err) {
             return;
         }
 
-        optimise = require('optimage');
+        optimise = require('./optimiseimage');
 
         try {
-            optimise(options, function (err) {
+            optimise(options, (err, result) => {
                 if (err) {
                     console.log('Smushers could not optimise ' + fileName);
                 }
@@ -110,7 +110,7 @@ var optimiseImage = function (fileName, outputFileName, callback) {
                     callback(err, outputFileName);
                 }
 
-                optimise = null;
+                optimise = undefined;
             });
         } catch (err) {
             console.log(err);
@@ -119,20 +119,19 @@ var optimiseImage = function (fileName, outputFileName, callback) {
                 callback(true, err);
             }
 
-            optimise = null;
+            optimise = undefined;
         }
     });
 };
 
 
 // Find and gzip static contents
-var gzipStaticContents = function (path) {
+var gzipStaticContents = (path) => {
     var compressStaticAssets,
         traverseFileSystem,
         writeFileSync,
         readFileSync,
         deleteFile;
-
 
     if (!path) {
         console.log('Smushers wasn\'t give a directory to smush :(');
@@ -140,14 +139,14 @@ var gzipStaticContents = function (path) {
     }
 
 
-    // Recursive file / folder dance, do stuff
-    traverseFileSystem = function (currentPath, func) {
+    // Recursive file / folder dance, do stuff (blocking)
+    traverseFileSystem = (currentPath, func) => {
         var files = fs.readdirSync(currentPath);
 
-        files.forEach(function (file) {
+        files.forEach((file) => {
             var currentFile = currentPath + '/' + file;
 
-            fs.stat(currentFile, function (err, stat) {
+            fs.stat(currentFile, (err, stat) => {
                 if (err) {
                     return;
                 }
@@ -165,19 +164,19 @@ var gzipStaticContents = function (path) {
 
 
     // Sync file read
-    readFileSync = function (fileName) {
+    readFileSync = (fileName) => {
         return fs.readFileSync(fileName).toString();
     };
 
 
     // Sync file write
-    writeFileSync = function (fileName, contents) {
+    writeFileSync = (fileName, contents) => {
         fs.writeFileSync(fileName, contents);
     };
 
 
     // Delete file
-    deleteFile = function (fileName, callback) {
+    deleteFile = (fileName, callback) => {
         fs.unlink(fileName, function (err) {
             if (err) {
                 console.log(err);
@@ -192,8 +191,8 @@ var gzipStaticContents = function (path) {
 
 
     // Find, minify and compress suitable files
-    compressStaticAssets = function (folder) {
-        traverseFileSystem(folder, function (currentFile) {
+    compressStaticAssets = (folder) => {
+        traverseFileSystem(folder, (currentFile) => {
             var fName = currentFile.split('.'),
                 extension = fName[fName.length - 1].toLowerCase(),
                 outputFileName = currentFile,
