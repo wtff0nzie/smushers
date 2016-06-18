@@ -21,10 +21,14 @@
         "url": "https://github.com/wtff0nzie/smushers/issues"
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "engines": {
         "node": ">= 6"
     },
+    "files": [
+        "index.js",
+        "Procfile"
+    ],
     "dependencies": {
         "clean-css": "*",
         "html-minifier": "*",
