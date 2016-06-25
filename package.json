@@ -21,13 +21,15 @@
         "url": "https://github.com/wtff0nzie/smushers/issues"
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
-    "version": "0.5.8",
+    "version": "0.5.91",
     "engines": {
         "node": ">= 6"
     },
-    "main": "./index.js",
     "files": [
-        "index.js"
+        "LICENSE.md",
+        "Readme.md",
+        "index.js",
+        "lib/"
     ],
     "dependencies": {
         "clean-css": "*",
