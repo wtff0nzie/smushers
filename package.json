@@ -21,7 +21,7 @@
         "url": "https://github.com/wtff0nzie/smushers/issues"
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
-    "version": "0.5.96",
+    "version": "0.5.97",
     "engines": {
         "node": ">= 6"
     },
