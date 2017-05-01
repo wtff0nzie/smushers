@@ -21,7 +21,7 @@
         "url": "https://github.com/wtff0nzie/smushers/issues"
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
-    "version": "0.5.97",
+    "version": "0.5.98",
     "engines": {
         "node": ">= 6"
     },
@@ -35,7 +35,7 @@
         "clean-css":            "*",
         "html-minifier":        "*",
         "imagemin":				"5.2.2",
-        "imagemin-mozjpeg":		"*",
+        "imagemin-mozjpeg":		"^5.1.0",
         "imagemin-pngquant":	"*",
         "imagemin-gifsicle":    "*"
     }
