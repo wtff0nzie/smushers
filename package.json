@@ -23,7 +23,7 @@
     "homepage": "https://github.com/wtff0nzie/smushers",
     "version": "0.5.991",
     "engines": {
-        "node": "8"
+        "node": "8.0"
     },
     "files": [
         "LICENSE.md",
