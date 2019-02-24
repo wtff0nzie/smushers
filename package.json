@@ -21,9 +21,9 @@
         "url": "https://github.com/wtff0nzie/smushers/issues"
     },
     "homepage": "https://github.com/wtff0nzie/smushers",
-    "version": "0.5.994",
+    "version": "0.6.0",
     "engines": {
-        "node": "8.4.0"
+        "node": "11.10.0"
     },
     "files": [
         "LICENSE.md",
@@ -32,12 +32,12 @@
         "lib/"
     ],
     "dependencies": {
-        "clean-css": "4.1.4",
-        "html-minifier": "^3.5.3",
-        "imagemin": "5.3.1",
-        "imagemin-gifsicle": "^5.2.0",
-        "imagemin-mozjpeg": "6.0.0",
-        "imagemin-pngquant": "5.0.1",
-        "uglify-js": "^3.0.28"
+        "clean-css": "4.2.1",
+        "html-minifier": "3.5.21",
+        "imagemin": "6.1.0",
+        "imagemin-gifsicle": "6.0.1",
+        "imagemin-mozjpeg": "8.0.0",
+        "imagemin-pngquant": "7.0.0",
+        "uglify-js": "3.4.9"
     }
 }
